@@ -17,16 +17,6 @@ def load_gpt2_model(model_name):
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     return model, tokenizer
 
-# def get_adaptive_calibration_scores(all_probs, all_gold_token_ids):
-
-#     # get the probabilities of each gold token id
-#     gold_probs = all_probs[np.arange(all_probs.shape[0]),all_gold_token_ids]
-#     # create a binary mask of size all_probs.shape[0] x all_probs.shape[1], where we have 1 if the probability is higher than the gold probability
-#     mask = all_probs >= (gold_probs[:,None] - 1e-9)
-#     # set the scores to be the sum of the probabilities of the tokens that are higher or equal than the gold probability
-#     scores = np.sum(all_probs * mask, axis=1)
-#     return scores
-
 def get_adaptive_calibration_scores(all_probs, all_gold_token_ids):
     scores = np.zeros(all_probs.shape[0])
     # sum up all probabilities that are higher than the gold probability
@@ -288,7 +278,7 @@ for model_name in model_names:
 
     
     # threshold vs effective accuracy
-    """
+    
     print("Calculating threshold vs effective accuracy")
     all_probs_argsorted = np.argsort(all_probs, axis=1)[:,::-1]
     all_probs_sorted = np.sort(all_probs, axis=1)[:,::-1]
@@ -305,13 +295,13 @@ for model_name in model_names:
         acc, accs = get_effective_acc(all_probs_sorted, probs_argsorted, gold_token_ids_bin, qhat=0.9)
         print(np.mean(accs))
         model_size2bin2effective_acc[extract_model_size(model_name)][bin] = accs
-    """ 
+    
     prefix = "1_per_sent" if use_1_per_sent else ""
-    # with open("model_size2qhat2effective_acc{}_v2.pickle".format(prefix), "wb") as f:
-    #     pickle.dump(model_size2qhat2effective_acc, f)
+    with open("model_size2qhat2effective_acc{}_v2.pickle".format(prefix), "wb") as f:
+         pickle.dump(model_size2qhat2effective_acc, f)
     with open("model_size2qhat{}_v2.pickle".format(prefix), "wb") as f:
        pickle.dump(model_size2qhat, f)
     with open("model_size2bin2qhat{}_v2.pickle".format(prefix), "wb") as f:
        pickle.dump(model_size2bin2qhat, f)
-    # with open("model_size2bin2effective_acc{}_v2.pickle".format(prefix), "wb") as f:
-    #      pickle.dump(model_size2bin2effective_acc, f)
+    with open("model_size2bin2effective_acc{}_v2.pickle".format(prefix), "wb") as f:
+          pickle.dump(model_size2bin2effective_acc, f)
