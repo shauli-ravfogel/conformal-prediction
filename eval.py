@@ -182,7 +182,6 @@ def extract_model_size(model_name):
     return model_size
 
 model_names = ["facebook/opt-125m", "facebook/opt-350m", "facebook/opt-1.3b", "facebook/opt-2.7b" ,"facebook/opt-6.7b", "facebook/opt-13b", "facebook/opt-30b"]
-model_names = ["facebook/opt-350m"]#, "facebook/opt-125m", "facebook/opt-350m", "facebook/opt-1.3b", "facebook/opt-2.7b" ,"facebook/opt-6.7b", "facebook/opt-13b", "facebook/opt-30b"]
 model_size2qhat = dict()
 model_size2bin2qhat = dict()
 model_size2qhat2effective_acc = dict()
